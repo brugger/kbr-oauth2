@@ -1,0 +1,30 @@
+{
+  "name": "test",
+  "oauth": {
+    "auth_database": "postgresql://auth_test:auth_test@localhost/auth_test",
+    "clients": {
+      "vmail": {
+        "client_id": "abc-no-more",
+        "client_secret": "xyz",
+        "redirect_uris": [
+          "http://localhost/vmail-frontend/#login"
+        ]
+      },
+      "blood_flow": {
+        "client_id": "abc",
+        "client_secret": "None",
+        "redirect_uris": [
+          "http://blood.bruggercorp.com/#login"
+        ]
+      }
+    }
+  },
+  "database": "postgresql://data_user:data_pass@localhost/data",
+  "logfile": "api.log",
+  "server": {
+    "port": 8088,
+    "template_path": "templates",
+    "debug": false
+  }
+}
+
