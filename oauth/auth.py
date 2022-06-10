@@ -21,7 +21,6 @@ from tornado.web import url
 import kbr.file_utils as file_utils
 import kbr.password_utils as password_utils
 
-
 import oauth.auth_db as auth_db
 import kbr.tornado as tornado
 
@@ -43,7 +42,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 
         # Readin template file and replace values with the values extracted above.
         # ! Should throw an error of something is missing
-        login = file_utils.readin_file( "templates/login.html")
+        login = file_utils.read( "templates/login.html")
 
         response.body = login.format( redirect_uri=redirect_uri,
                                       client_id=client_id,
@@ -63,6 +62,10 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 
 
         if username and password:
+
+            #print(username, password)
+
+            return {'user_id': username }
 
             idp_user = db.idp_user_get( username )
             print( idp_user )
@@ -162,6 +165,7 @@ def init( auth_database:str, clients:[] ) -> []:
     urls = [
         url(provider.authorize_path, OAuth2Handler, dict(provider=provider)),
  #       url(r'/me/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', UserHandler),
+        url(r'/introspect/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', IntrospectionHandler),
         url(r'/me/?$', UserHandler),
     ]
 
