@@ -4,6 +4,7 @@
  Kim Brugger
 """
 
+from email.policy import default
 import logging
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
@@ -60,6 +61,8 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         username = request.get_param("username")
         password = request.get_param("password")
 
+        hash = request.get_param('hash', default=None)
+        print('hash', hash)
 
         if username and password:
 
