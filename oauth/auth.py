@@ -42,7 +42,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         scope          = tornado.url_unescape( request.get_param('scope', default=None) )
         failed_message = environ.get('failed_message','')
         redirect_uri_encoded = "http%3A%2F%2Fblood.bruggercorp.com%2F%23login"
-        redirect_uri_encoded = tornado.url_escape( request.get_param('redirect_uri', default=None), plus=True )
+        redirect_uri_encoded = tornado.url_escape( request.get_param('redirect_uri', default=None), plus=False )
         # Readin template file and replace values with the values extracted above.
         # ! Should throw an error of something is missing
         login = file_utils.read( "templates/login.html")
