@@ -64,7 +64,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         username = request.get_param("username")
         password = request.get_param("password")
 
-        third_party = request.get_param('id', default=None)
+        third_party = request.get_param('third_party', default=None)
         print( third_party)
 
         if third_party == 'telegram':
