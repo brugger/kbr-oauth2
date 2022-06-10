@@ -38,7 +38,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 
         client_id      = tornado.url_unescape( request.get_param('client_id') )
         redirect_uri   = tornado.url_unescape( request.get_param('redirect_uri') )
-        scope          = tornado.url_unescape( request.get_param('scope') )
+        scope          = tornado.url_unescape( request.get_param('scope', default=None) )
         failed_message = environ.get('failed_message','')
 
         # Readin template file and replace values with the values extracted above.
