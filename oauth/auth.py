@@ -7,6 +7,7 @@
 from email.policy import default
 import logging
 import pprint
+from urllib import request
 pp = pprint.PrettyPrinter(indent=4)
 
 from oauth2 import Provider
@@ -40,12 +41,14 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         redirect_uri   = tornado.url_unescape( request.get_param('redirect_uri') )
         scope          = tornado.url_unescape( request.get_param('scope', default=None) )
         failed_message = environ.get('failed_message','')
+        redirect_uri_encoded = request.get_param('redirect_uri', None)
 
         # Readin template file and replace values with the values extracted above.
         # ! Should throw an error of something is missing
         login = file_utils.read( "templates/login.html")
 
         response.body = login.format( redirect_uri=redirect_uri,
+                                      redirect_uri_encoded=redirect_uri_encoded,  
                                       client_id=client_id,
                                       scope=scope,
                                       failed_message=failed_message)
@@ -61,8 +64,12 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         username = request.get_param("username")
         password = request.get_param("password")
 
-        hash = request.get_param('hash', default=None)
-        print('hash', hash)
+        third_party = request.get_param('id', default=None)
+        if third_party == 'telegram':
+            id = request.get_param('id', default=None)
+            first_name = request.get_param('first_name', None)
+            last_name  = request.get_param('last_name', None)
+            print(first_name, last_name, id)
 
         if username and password:
 
