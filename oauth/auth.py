@@ -71,7 +71,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
             id = request.get_param('id', default=None)
             first_name = request.get_param('first_name', None)
             last_name  = request.get_param('last_name', None)
-            print(first_name, last_name, id)
+            print("TELEGRAM", third_party, first_name, last_name, id)
 
         if username and password:
 
