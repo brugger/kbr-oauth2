@@ -41,7 +41,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         redirect_uri   = tornado.url_unescape( request.get_param('redirect_uri') )
         scope          = tornado.url_unescape( request.get_param('scope', default=None) )
         failed_message = environ.get('failed_message','')
-        redirect_uri_encoded = request.get_param('redirect_uri', None)
+        redirect_uri_encoded = tornado.url_escape(request.get_param('redirect_uri', None))
 
         # Readin template file and replace values with the values extracted above.
         # ! Should throw an error of something is missing
@@ -65,6 +65,8 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         password = request.get_param("password")
 
         third_party = request.get_param('id', default=None)
+        print( third_party)
+
         if third_party == 'telegram':
             id = request.get_param('id', default=None)
             first_name = request.get_param('first_name', None)
