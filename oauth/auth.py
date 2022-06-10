@@ -93,7 +93,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 class ResetHandler( tornado.BaseHandler ):
 
     def get(self):
-        self.render("templates/reset.html")
+        self.render("reset.html")
 #        reset = file_utils.read( "templates/reset.html")
 #        self.send_response(data=reset)
 
