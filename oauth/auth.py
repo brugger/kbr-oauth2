@@ -93,9 +93,14 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 class ResetHandler( tornado.BaseHandler ):
 
     def get(self):
-        self.render("reset.html")
-#        reset = file_utils.read( "templates/reset.html")
-#        self.send_response(data=reset)
+
+        username = self.get_param('username', default=None)
+
+        if username is not None:
+            #send email
+            self.render('reset_email_sent.html')
+        else:
+            self.render("reset.html")
 
 
 class UserHandler( tornado.BaseHandler ):
