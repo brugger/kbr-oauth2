@@ -90,6 +90,14 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 
         raise UserNotAuthenticated
 
+class ResetHandler( tornado.BaseHandler ):
+
+    def get(self):
+        reset = file_utils.read( "templates/reset.html")
+
+        self.send_response(data=reset)
+
+
 class UserHandler( tornado.BaseHandler ):
 
     def get(self):
@@ -180,6 +188,7 @@ def init( auth_database:str, clients:[] ) -> []:
  #       url(r'/me/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', UserHandler),
         url(r'/introspect/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', IntrospectionHandler),
         url(r'/me/?$', UserHandler),
+        url(r'/reset/?$', ResetHandler),
     ]
 
     return urls
