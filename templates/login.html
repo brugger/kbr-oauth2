@@ -6,8 +6,8 @@
 
 <body>
 
-
-
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="auth-brugger-dev.apps.googleusercontent.com">
 
 <div class="h-100 row align-items-center justify-content-center">
     <div class="row">
@@ -44,6 +44,7 @@
                         <input  hidden name="scope" value="{scope}">
                         <input  hidden name="response_type" value="token">
                     </form>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     <script async src="https://telegram.org/js/telegram-widget.js?19" 
                             data-telegram-login="bruggerdev_bot" 
                             data-size="medium" 

@@ -148,7 +148,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
             return
 
 
-def introspection(token:str) -> {}:
+def introspection(token:str) -> dict:
 
   #  return {'success': True, 'active': True, 'data': {}}
 
@@ -159,7 +159,7 @@ def introspection(token:str) -> {}:
     except Exception as e:
         return {'success': False, "mgs": "{}: {}".format( e.__class__.__name__, e ) }
 
-def init( auth_database:str, clients:[] ) -> []:
+def init( auth_database:str, clients:list ) -> list:
 
 
     global db
