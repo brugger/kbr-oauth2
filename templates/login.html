@@ -56,30 +56,9 @@
                       function onSignIn(response) {{
                             console.log(response);
                              redirect_url="/authorize?third_party=google&client_id={client_id}&redirect_uri={redirect_uri_encoded}&response_type=token&scope={scope}&response="+response.credential;
-                             console.log(redirect_url)
+                             //console.log(redirect_url)
                              window.location.replace(redirect_url);
-                             // Useful data for your client-side scripts:
-                             var profile = googleUser.getBasicProfile();
-                             console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-                             console.log('Full Name: ' + profile.getName());
-                             console.log('Given Name: ' + profile.getGivenName());
-                             console.log('Family Name: ' + profile.getFamilyName());
-                             console.log("Image URL: " + profile.getImageUrl());
-                             console.log("Email: " + profile.getEmail());
-
-                             // The ID token you need to pass to your backend:
-                             var id_token = googleUser.getAuthResponse().id_token;
-                             console.log("ID Token: " + id_token);
                             }}
-                    </script>
-                    <a href="#" onclick="signOut();">Sign out</a>
-                    <script>
-                      function signOut() {{
-                        var auth2 = gapi.auth2.getAuthInstance();
-                        auth2.signOut().then(function () {{
-                          console.log('User signed out.');
-                        }});
-                      }}
                     </script>
                     <!--
                     <script async src="https://telegram.org/js/telegram-widget.js?19" 

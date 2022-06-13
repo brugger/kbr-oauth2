@@ -74,6 +74,11 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
             print("TELEGRAM", third_party, first_name, last_name, id)
             environ[ 'failed_message' ] = 'Unknown telegram user'
 
+        if third_party == 'google':
+            response= request.get_param('response', None)
+            user_info = jwt.decode(response, verify=False)
+            environ[ 'failed_message' ] = f'Unknown google user {user_info["email"]}'
+
         if username and password:
 
             #print(username, password)
