@@ -47,15 +47,15 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block"> Login  </button>
                         </div> <!-- form-group// -->
-                        <div class="form-group">
-                            <button class="btn btn-secondary btn-block" onclick="location.href='/reset'">Reset password</button>
-                        </div> <!-- form-group// -->
                         <p class="text-center"><a href="/reset" class="btn">Reset password</a></p>
                         <input  hidden name="client_id" value="{client_id}">
                         <input  hidden name="redirect_uri" value="{redirect_uri}">
                         <input  hidden name="scope" value="{scope}">
                         <input  hidden name="response_type" value="token">
                     </form>
+                    <div class="form-group">
+                        <button class="btn btn-secondary btn-block" onclick="location.href='/reset'">Reset password</button>
+                    </div> <!-- form-group// -->
                     <div class="g_id_signin text-center" data-type="standard"></div><br>
                     <script>
                       function onSignIn(response) {{
