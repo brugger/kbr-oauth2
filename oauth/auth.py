@@ -98,11 +98,11 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
             environ[ 'failed_message' ] = 'Unknown telegram user'
 
         if third_party == 'google':            
-            response= request.get_param('response', None)
+            response = request.get_param('response', None)
 
             try:
-                user_info =  decode_jwt(response)
-                environ[ 'failed_message' ] = f'Unknown google user {user_info["email"]}'
+                user_info = decode_jwt(response)
+                environ[ 'failed_message' ] = f'Unknown google user: {user_info["email"]}'
             except:
                 environ[ 'failed_message' ] = f'Invalid jwt'
 

@@ -6,6 +6,8 @@
 
 <body>
 
+    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
+
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <div id="g_id_onload"
@@ -45,28 +47,23 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block"> Login  </button>
                         </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-secondary btn-block" onclick="location.href='/reset'">Reset password</button>
+                        </div> <!-- form-group// -->
                         <p class="text-center"><a href="/reset" class="btn">Reset password</a></p>
                         <input  hidden name="client_id" value="{client_id}">
                         <input  hidden name="redirect_uri" value="{redirect_uri}">
                         <input  hidden name="scope" value="{scope}">
                         <input  hidden name="response_type" value="token">
                     </form>
-                    <div class="g_id_signin" data-type="standard"></div><br>
+                    <div class="g_id_signin text-center" data-type="standard"></div><br>
                     <script>
                       function onSignIn(response) {{
                             console.log(response);
                              redirect_url="/authorize?third_party=google&client_id={client_id}&redirect_uri={redirect_uri_encoded}&response_type=token&scope={scope}&response="+response.credential;
-                             //console.log(redirect_url)
                              window.location.replace(redirect_url);
                             }}
                     </script>
-                    <!--
-                    <script async src="https://telegram.org/js/telegram-widget.js?19" 
-                            data-telegram-login="bruggerdev_bot" 
-                            data-size="medium" 
-                            data-auth-url="/authorize?third_party=telegram&client_id={client_id}&redirect_uri={redirect_uri_encoded}&response_type=token&scope={scope}">
-                    </script>
-                    -->
                 </article>
             </div> <!-- card.// -->
 
