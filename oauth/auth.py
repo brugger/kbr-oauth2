@@ -39,10 +39,10 @@ db = None
 acls = {}
 
 def decode_jwt(response) -> dict:
+    global certs
     try:
         user_info = jwt.decode(response, certs=certs)
     except ValueError:
-        global certs
         certs = request.get( google_pem_certs).json()
 
         try:
