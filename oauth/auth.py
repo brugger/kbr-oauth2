@@ -29,7 +29,7 @@ certs = {}
 import kbr.file_utils as file_utils
 import kbr.password_utils as password_utils
 
-import oauth.auth_db as auth_db
+import oauth.db as auth_db
 import kbr.tornado as tornado
 
 client_store = ClientStore()
