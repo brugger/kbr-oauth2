@@ -129,6 +129,7 @@ class ResetHandler( tornado.BaseHandler ):
     def get(self):
 
 #        username = self.get_param('username', default=None)
+        args = self.arguments()
         username = args.get('username', None)
         if username is not None:
             #send email
