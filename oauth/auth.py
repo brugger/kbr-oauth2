@@ -5,6 +5,7 @@
 """
 
 from email.policy import default
+from glob import glob
 import logging
 import pprint
 from urllib import request
@@ -19,6 +20,11 @@ from oauth2.store.memory import ClientStore, TokenStore
 from oauth2.web.tornado import OAuth2Handler
 from tornado.web import url
 
+from google.auth import jwt
+import requests
+
+google_pem_certs = 'https://www.googleapis.com/oauth2/v1/certs'
+certs = {}
 
 import kbr.file_utils as file_utils
 import kbr.password_utils as password_utils
@@ -31,6 +37,22 @@ token_store = TokenStore()
 db = None
 
 acls = {}
+
+def decode_jwt(response) -> dict:
+    try:
+        user_info = jwt.decode(response, certs=certs)
+    except ValueError:
+        global certs
+        certs = request.get( google_pem_certs).json()
+
+        try:
+            user_info = jwt.decode(response, certs=certs)
+        except:
+            raise RuntimeError
+
+    return user_info
+
+
 
 class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 
@@ -74,9 +96,15 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
             print("TELEGRAM", third_party, first_name, last_name, id)
             environ[ 'failed_message' ] = 'Unknown telegram user'
 
-        if third_party == 'google':
+        if third_party == 'google':            
             response= request.get_param('response', None)
-            user_info = jwt.decode(response, verify=False)
+
+            try:
+                user_info =  decode_jwt(response)
+            except:
+                environ[ 'failed_message' ] = f'Invalid jwt, old for {user_info["email"]}'
+
+
             environ[ 'failed_message' ] = f'Unknown google user {user_info["email"]}'
 
         if username and password:
