@@ -53,8 +53,11 @@
                     </form>
                     <div class="g_id_signin" data-type="standard"></div><br>
                     <script>
-                      function onSignIn(googleUser) {{
-                            console.log(googleUser);
+                      function onSignIn(response) {{
+                            console.log(response);
+                             redirect_url="/authorize?third_party=google&client_id={client_id}&redirect_uri={redirect_uri_encoded}&response_type=token&scope={scope}&response="+response.credential;
+                             console.log(redirect_url)
+                             window.location.replace(redirect_url);
                              // Useful data for your client-side scripts:
                              var profile = googleUser.getBasicProfile();
                              console.log("ID: " + profile.getId()); // Don't send this directly to your server!
