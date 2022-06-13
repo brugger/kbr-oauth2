@@ -1,6 +1,6 @@
 python-oauth2
 tabulate
-PyJWT
+requests
 google-auth
 
 kbr@git+https://github.com/brugger/kbr-tools.git@2_0
