@@ -103,7 +103,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
             try:
                 user_info =  decode_jwt(response)
             except:
-                environ[ 'failed_message' ] = f'Invalid jwt, old for {user_info["email"]}'
+                environ[ 'failed_message' ] = f'Invalid jwt'
 
 
             environ[ 'failed_message' ] = f'Unknown google user {user_info["email"]}'
