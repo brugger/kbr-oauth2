@@ -237,7 +237,7 @@ def init( auth_database:str, clients:list ) -> list:
         url(r'/introspect/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', IntrospectionHandler),
         url(r'/me/?$', UserHandler),
         url(r'/reset/?$', ResetHandler),
-        url(r'/privacypolicy/?$', PrivacyHandler),
+        url(r'/privacy/?$', PrivacyHandler),
         url(r'/tos/?$', TosHandler),
     ]
 
