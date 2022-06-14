@@ -20,16 +20,22 @@ version = version_utils.as_string()
 db = None
 
 
-class RootHandler ( tornado.BaseHandler ):
+class VersionHandler ( tornado.BaseHandler ):
 
     def endpoint(self):
-        return("/")
+        return("/version")
 
     def get(self):
 
 #        self.canRead( self.endpoint() )
         return self.send_response(data={"name":"kbr-oauth2", "version":version})
         self.render('index.html', title='My title', message='Hello world')
+
+
+class RootHandler( tornado.BaseHandler ):
+
+    def get(self):
+        self.render("index.html")
 
 
 def main():
@@ -62,6 +68,7 @@ def main():
 #        db.connect( config.database )
 
     urls = [('/', RootHandler),
+            ('/version', VersionHandler),
             ] + oauth.init( **config.oauth )
 
     tornado.run_app( urls, **config.server )
