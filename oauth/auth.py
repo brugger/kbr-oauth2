@@ -111,11 +111,17 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         if username and password:
 
             idp_user = db.idp_users( username=username )
-            if idp_user == [] or idp_user is None or password_utils.check_password(idp_user[ 'password'], password):
+            print(idp_user)
+            if idp_user == [] or idp_user is None:
                 environ[ 'failed_message' ] = 'Incorrect username and/or password'
             else:
+                idp_user = idp_user[0]
+                if password_utils.check_password(idp_user[ 'password'], password):
+                    return {'user_id':idp_user[ 'id' ] }
+                else:
 #                user_profile = db.user_profile_get( idp_user_id=idp_user[ 'id'])
-                return {'user_id':user_profile[ 'id' ] }
+                    environ[ 'failed_message' ] = 'Incorrect username and/or password'
+#                return {'user_id':user_profile[0][ 'id' ] }
 
         raise UserNotAuthenticated
 
@@ -232,6 +238,7 @@ def init( auth_database:str, clients:list ) -> list:
     print("Auth url: {}".format( provider.authorize_path ))
 
     urls = [
+        #/authorize?client_id=...&redirect_uri=...&response_type=token
         url(provider.authorize_path, OAuth2Handler, dict(provider=provider)),
  #       url(r'/me/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', UserHandler),
         url(r'/introspect/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', IntrospectionHandler),
