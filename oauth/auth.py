@@ -106,7 +106,6 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
                 guser = db.google_users(email=user_info['email'])[0]
                 return {'user_id':guser[ 'idp_user_id' ] }
             except:
-                print('failed!')
                 environ[ 'failed_message' ] = f'Unknown google user or invalid jwt'
                 raise UserNotAuthenticated
 
