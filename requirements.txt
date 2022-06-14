@@ -1,9 +1,10 @@
+kbr@git+https://github.com/brugger/kbr-tools.git@2_0
+records@git+https://github.com/brugger/records.git
+kbr-tornado@git+https://github.com/brugger/kbr-tools-tornado.git
+kbr-dbase@git+https://github.com/brugger/kbr-tools-dbase.git
+
 python-oauth2
 tabulate
 requests
 google-auth
 
-kbr@git+https://github.com/brugger/kbr-tools.git@2_0
-records@git+https://github.com/brugger/records.git
-kbr-tornado@git+https://github.com/brugger/kbr-tools-tornado.git
-kbr-dbase@git+https://github.com/brugger/kbr-tools-dbase.git

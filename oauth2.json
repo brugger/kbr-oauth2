@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "auth",
   "oauth": {
-    "auth_database": "postgresql://auth_test:auth_test@localhost/auth_test",
+    "auth_database": "postgresql://idp:CFeSPst37RnDRt9@localhost/idp",
     "clients": {
       "vmail": {
         "client_id": "abc-no-more",
@@ -19,11 +19,12 @@
       }
     }
   },
-  "database": "postgresql://data_user:data_pass@localhost/data",
-  "logfile": "api.log",
+  "logfile": "auth.log",
+  "database": "postgresql://idp:CFeSPst37RnDRt9@localhost/idp",
   "server": {
     "port": 8088,
     "template_path": "templates",
+    "static_path": "static",
     "debug": false
   }
 }

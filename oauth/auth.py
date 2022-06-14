@@ -29,7 +29,7 @@ certs = {}
 import kbr.file_utils as file_utils
 import kbr.password_utils as password_utils
 
-import oauth.db as auth_db
+import oauth.facade as auth_db
 import kbr.tornado as tornado
 
 client_store = ClientStore()
@@ -110,16 +110,11 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
 
         if username and password:
 
-            #print(username, password)
-
-            return {'user_id': username }
-
-            idp_user = db.idp_user_get( username )
-            print( idp_user )
-            if idp_user is None or not password_utils.check_password(idp_user[ 'password'], password):
+            idp_user = db.idp_users( username=username )
+            if idp_user == [] or idp_user is None or password_utils.check_password(idp_user[ 'password'], password):
                 environ[ 'failed_message' ] = 'Incorrect username and/or password'
             else:
-                user_profile = db.user_profile_get( idp_user_id=idp_user[ 'id'])
+#                user_profile = db.user_profile_get( idp_user_id=idp_user[ 'id'])
                 return {'user_id':user_profile[ 'id' ] }
 
         raise UserNotAuthenticated
@@ -136,6 +131,19 @@ class ResetHandler( tornado.BaseHandler ):
             self.render('reset_email_sent.html')
         else:
             self.render("reset.html")
+
+
+class TosHandler( tornado.BaseHandler ):
+
+    def get(self):
+        self.render("tos.html")
+
+
+class  PrivacyHandler( tornado.BaseHandler ):
+
+    def get(self):
+        self.render("privacypolicy.html")
+
 
 
 class UserHandler( tornado.BaseHandler ):
@@ -229,6 +237,8 @@ def init( auth_database:str, clients:list ) -> list:
         url(r'/introspect/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/?$', IntrospectionHandler),
         url(r'/me/?$', UserHandler),
         url(r'/reset/?$', ResetHandler),
+        url(r'/privacypolicy/?$', PrivacyHandler),
+        url(r'/tos/?$', TosHandler),
     ]
 
     return urls
