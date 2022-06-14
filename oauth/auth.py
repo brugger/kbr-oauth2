@@ -90,7 +90,7 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         third_party = request.get_param('third_party', default=None)
         print( third_party)
 
-        if third_party == 'telegram':
+        if third_party == 'telegram' and False:
             id = request.get_param('id', default=None)
             first_name = request.get_param('first_name', None)
             last_name  = request.get_param('last_name', None)
@@ -103,25 +103,28 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
             try:
                 user_info = decode_jwt(response)
                 environ[ 'failed_message' ] = f'Unknown google user: {user_info["email"]}'
+                guser = db.google_users(email=user_info['email'])[0]
+                return {'user_id':guser[ 'idp_user_id' ] }
             except:
-                environ[ 'failed_message' ] = f'Invalid jwt'
+                print('failed!')
+                environ[ 'failed_message' ] = f'Unknown google user or invalid jwt'
+                raise UserNotAuthenticated
 
-
-
-        if username and password:
+        elif username and password:
 
             idp_user = db.idp_users( username=username )
             print(idp_user)
             if idp_user == [] or idp_user is None:
                 environ[ 'failed_message' ] = 'Incorrect username and/or password'
+                raise UserNotAuthenticated
+
+            idp_user = idp_user[0]
+            if password_utils.check_password(idp_user[ 'password'], password):
+                return {'user_id':idp_user[ 'id' ] }
             else:
-                idp_user = idp_user[0]
-                if password_utils.check_password(idp_user[ 'password'], password):
-                    return {'user_id':idp_user[ 'id' ] }
-                else:
-#                user_profile = db.user_profile_get( idp_user_id=idp_user[ 'id'])
-                    environ[ 'failed_message' ] = 'Incorrect username and/or password'
-#                return {'user_id':user_profile[0][ 'id' ] }
+                environ[ 'failed_message' ] = 'Incorrect username and/or password'
+                raise UserNotAuthenticated
+    
 
         raise UserNotAuthenticated
 

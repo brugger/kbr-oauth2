@@ -180,6 +180,12 @@ def google_user_cmd(args) -> None:
         data['gid'] = args_utils.get_or_default(args, None)
         data['username'] = args_utils.get_or_default(args, None)
 
+        if data['gid'] is None:
+            del data['gid']
+
+        if data['username'] is None:
+            del data['username']
+
         db.google_user_create(**data)
 #        db.google_user_create(idp_user_id=idp_user_id, gid=gid, email=email, username=username, create_date=create_date, last_login=last_login)
 
