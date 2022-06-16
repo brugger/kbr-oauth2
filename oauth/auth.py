@@ -178,6 +178,10 @@ class IntrospectionHandler( tornado.BaseHandler ):
     def get(self, token:str=None):
         global token_store
         try:
+            args = self.arguments()
+            client_id = args.get('client_id', None)
+            client_secret = args.get('client_secret', None)
+
             token = token_store.fetch_by_token( token )
             pp.pprint( token )
 
@@ -191,12 +195,55 @@ class IntrospectionHandler( tornado.BaseHandler ):
             pp.pprint( token.scopes )
             pp.pprint( token.user_id )
 
-            self.send_response({'success':True, 'active': True, 'data': token.data})
+#            client = client_store.fetch_by_client_id(client_id)
+#            if client_id != token.client_id:
+#                raise AssertionError('wrong client_id')
+
+#            if client.secret != client_secret:
+#                raise AssertionError('wrong client_secret')
+
+            self.send_response({'success':True, 'active': True, 'data': token.data, 'token': token})
             return
         except:
             print("Token not found")
             self.send_response_401({'success': False})
             return
+
+
+    def post(self, token:str=None):
+        global token_store
+        try:
+            values = self.post_values()
+            client_id = values.get('client_id', None)
+            client_secret = values.get('client_secret', None)
+
+            token = token_store.fetch_by_token( token )
+            pp.pprint( token )
+
+            pp.pprint( token.client_id )
+            pp.pprint( token.grant_type )
+            pp.pprint( token.token )
+            pp.pprint( token.data )
+            pp.pprint( token.expires_at )
+            pp.pprint( token.refresh_token )
+            pp.pprint( token.refresh_expires_at )
+            pp.pprint( token.scopes )
+            pp.pprint( token.user_id )
+
+            client = client_store.fetch_by_client_id(client_id)
+            if client_id != token.client_id:
+                raise AssertionError('wrong client_id')
+
+            if client.secret != client_secret:
+                raise AssertionError('wrong client_secret')
+
+            self.send_response({'success':True, 'active': True, 'data': token.data, 'token': token})
+            return
+        except:
+            print("Token not found")
+            self.send_response_401({'success': False})
+            return
+
 
 
 def introspection(token:str) -> dict:
