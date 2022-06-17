@@ -202,7 +202,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
 #            if client.secret != client_secret:
 #                raise AssertionError('wrong client_secret')
 
-            self.send_response({'success':True, 'active': True, 'data': token.data, 'token': token})
+            self.send_response({'success':True, 'active': True, 'data': token.data})
             return
         except:
             print("Token not found")
@@ -237,7 +237,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
             if client.secret != client_secret:
                 raise AssertionError('wrong client_secret')
 
-            self.send_response({'success':True, 'active': True, 'data': token.data, 'token': token})
+            self.send_response({'success':True, 'active': True, 'data': token.data})
             return
         except:
             print("Token not found")
