@@ -242,6 +242,9 @@ class IntrospectionHandler( tornado.BaseHandler ):
             self.send_response({'success':True, 'active': True, 'data': token.data})
             return
         except Exception as e:
+            import traceback
+            traceback.print_exc()
+            
             print( e )
             print("Token not found")
             self.send_response_401({'success': False})
