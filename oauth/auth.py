@@ -221,7 +221,6 @@ class IntrospectionHandler( tornado.BaseHandler ):
             pp.pprint( token )
 
             pp.pprint( token.client_id )
-            pp.pprint( token.client_secret )
             pp.pprint( token.grant_type )
             pp.pprint( token.token )
             pp.pprint( token.data )
@@ -244,7 +243,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
         except Exception as e:
             import traceback
             traceback.print_exc()
-            
+
             print( e )
             print("Token not found")
             self.send_response_401({'success': False})
