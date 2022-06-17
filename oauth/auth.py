@@ -221,6 +221,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
             pp.pprint( token )
 
             pp.pprint( token.client_id )
+            pp.pprint( token.client_secret )
             pp.pprint( token.grant_type )
             pp.pprint( token.token )
             pp.pprint( token.data )
@@ -231,6 +232,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
             pp.pprint( token.user_id )
 
             client = client_store.fetch_by_client_id(client_id)
+            print( client )
             if client_id != token.client_id:
                 raise AssertionError('wrong client_id')
 
@@ -239,7 +241,8 @@ class IntrospectionHandler( tornado.BaseHandler ):
 
             self.send_response({'success':True, 'active': True, 'data': token.data})
             return
-        except:
+        except Exception as e:
+            print( e )
             print("Token not found")
             self.send_response_401({'success': False})
             return
