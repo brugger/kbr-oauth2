@@ -3,15 +3,15 @@
   "oauth": {
     "auth_database": "postgresql://idp:CFeSPst37RnDRt9@localhost/idp",
     "clients": {
-      "vmail": {
-        "client_id": "abc-no-more",
+      "localhost": {
+        "client_id": "abc",
         "client_secret": "xyz",
         "redirect_uris": [
-          "http://localhost/vmail-frontend/#login"
+          "http://localhost:8080/#login"
         ]
       },
       "blood_flow": {
-        "client_id": "abc",
+        "client_id": "bloodyhell",
         "client_secret": "None",
         "redirect_uris": [
           "http://blood.bruggercorp.com/#login"
