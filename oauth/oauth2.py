@@ -371,7 +371,7 @@ class IdpUsersListHandler( tornado.BaseHandler):
             db.idp_user_create(**values)
             self.send_response_200()
         except Exception as e:
-            logger.error(f"Request export tracking error {e}")
+            print(f"Request export tracking error {e}")
             self.send_response_404()
 
     def options(self):
