@@ -84,7 +84,7 @@ def utils_cmd(args) -> None:
 
 
 def table_cmd(args) -> None:
-    commands = { 'i':'idp_user','g':'google_user', 'h':'help'}
+    commands = { 'i':'idp_user', 'h':'help'}
 
     if len(args.command) == 0:
         args.command.append('help')
@@ -95,10 +95,7 @@ def table_cmd(args) -> None:
     
     if command == 'idp_user':
         idp_user_cmd(args.command)
-        
-    elif command == 'google_user':
-        google_user_cmd(args.command)
-        
+                
     else:
         print("table: {}".format(args_utils.pretty_commands(commands)))
         sys.exit()
@@ -161,75 +158,9 @@ def idp_user_cmd(args) -> None:
         sys.exit()
 
 
-def google_user_cmd(args) -> None:
-
-    commands = {'c':'create', 's':'show', 'l':'list', 'u':'update', 'd': 'delete', 'p':'purge', 'h':'help'}
-
-    if len(args) == 0:
-        args.append('help')
-
-    command = args.pop(0)
-    command = args_utils.valid_command(command, commands)
-
-    if command == 'create':
-        data = {}
-
-        data['email'] = args_utils.get_or_fail(args, "Missing email")
-
-        data['idp_user_id'] = args_utils.get_or_default(args, None)
-        data['gid'] = args_utils.get_or_default(args, None)
-        data['username'] = args_utils.get_or_default(args, None)
-
-        if data['gid'] is None:
-            del data['gid']
-
-        if data['username'] is None:
-            del data['username']
-
-        db.google_user_create(**data)
-#        db.google_user_create(idp_user_id=idp_user_id, gid=gid, email=email, username=username, create_date=create_date, last_login=last_login)
-
-    elif command == 'show':
-        id = args_utils.get_or_fail(args, "Missing google_user id")
-        entry = db.google_user(id)
-        print( tabulate(entry, headers={}, tablefmt='psql'))
-
-    elif command == 'list':
-        google_users = db.google_users()
-        print( tabulate(google_users, headers={}, tablefmt='psql'))
-
-    elif command == 'update':
-        id = args_utils.get_or_fail(args, "Missing google_user id")
-        data = args_utils.group_args( args )
-        data['id'] = id
-        del data['rest']
-
-        db.google_user_update(**data)
-
-    elif command == 'delete':
-        id = args_utils.get_or_fail(args, "Missing google_user id")
-        db.google_user_delete(id)
-    elif command == 'purge':
-        db.google_user_purge()
-
-    else:
-        print("Help:")
-        print("-----------------")
-        print("google_user list")
-        print("google_user create [email] <idp_user_id> <gid> <username> <create_date> <last_login> ")
-        print("google_user show [id]")
-        print("google_user update [id] email:email idp_user_id:idp_user_id gid:gid username:username create_date:create_date last_login:last_login  ")
-        print("google_user delete [id]")
-        print("google_user purge")
-        sys.exit()
-
-
-
-
-
 def main():
 
-    commands = {'u':'utils', 't':'table', 'c':'config', 'h':'help'}
+    commands = {'u': 'users', 'ut':'utils',  'c':'config', 'h':'help'}
 
     parser = argparse.ArgumentParser(description='{project}-cli tool')
     parser.add_argument('-c', '--config', default="oauth2.json", help="config file, can be overridden by parameters")
@@ -261,8 +192,8 @@ def main():
 
     if command == 'utils':
         utils_cmd(args)
-    elif command == 'table':
-        table_cmd(args)
+    elif command == 'users':
+        idp_user_cmd(args.command)
     elif command == 'help':
         parser.print_help()
         sys.exit(1)
