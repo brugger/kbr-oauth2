@@ -37,36 +37,3 @@ class DB(object):
 
     def idp_user_purge(self) -> None:
         self._db.purge('idp_user')
-##### google_user #####
-
-    def google_user_create(self, email:str, **values) -> dict:
-
-        values['email'] = email
-
-        p = self._db.add('google_user', values)
-
-        return self._db.get('google_user', **values)
-
-
-    def google_user_create_unique(self, email:str, **values) -> dict:
-
-        values['email'] = email
-
-        return self._db.add_unique('google_user', values, ['email'])
-
-
-    def google_user(self, id:str) -> dict:
-        return self._db.get_by_id('google_user', id)
-
-    def google_users(self, **values) -> dict:
-        return self._db.get('google_user', **values)
-
-    def google_user_update(self, **values) -> dict:
-        self._db.update('google_user', values, {'id': values['id']})
-
-    def google_user_delete(self, id) -> None:
-        self._db.delete('google_user', id=id)
-
-    def google_user_purge(self) -> None:
-        self._db.purge('google_user')
-

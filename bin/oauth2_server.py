@@ -9,15 +9,14 @@ import pprint as pp
 import kbr.log_utils as logger
 import kbr.config_utils as config_utils
 
-import oauth.auth      as oauth
+import oauth.oauth2      as oauth
 import kbr.tornado       as tornado
 import kbr.version_utils as version_utils
 
+import oauth.auth.rest as auth_rest
+
 version = version_utils.as_string()
 
-#import <PROJECT>.db as <PROJECT>_db
-
-db = None
 
 
 class VersionHandler ( tornado.BaseHandler ):
@@ -26,10 +25,7 @@ class VersionHandler ( tornado.BaseHandler ):
         return("/version")
 
     def get(self):
-
-#        self.canRead( self.endpoint() )
         return self.send_response(data={"name":"kbr-oauth2", "version":version})
-        self.render('index.html', title='My title', message='Hello world')
 
 
 class RootHandler( tornado.BaseHandler ):
@@ -62,14 +58,12 @@ def main():
     logger.init(name=config.name, log_file=config.logfile )
     logger.set_log_level( args.verbose )
 
-    if 'database' in config:
-        global db
-#        db = <PROJECT>_db.DB()
-#        db.connect( config.database )
-
     urls = [('/', RootHandler),
             ('/version', VersionHandler),
-            ] + oauth.init( **config.oauth )
+            ] + oauth.init( **config.oauth ) + auth_rest.init( config.database, config.introspection_url, 
+                                                               config.client_id, config.client_secret )
+
+    tornado.development()
 
     tornado.run_app( urls, **config.server )
 

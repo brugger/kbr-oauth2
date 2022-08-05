@@ -7,14 +7,10 @@
         "client_id": "abc",
         "client_secret": "xyz",
         "redirect_uris": [
-          "http://localhost:4200/#login"
-        ]
-      },
-      "blood_flow": {
-        "client_id": "bloodyhell",
-        "client_secret": "None",
-        "redirect_uris": [
-          "http://blood.bruggercorp.com/#login"
+          "http://localhost:4200/#login",
+          "http://localhost:4201/#login",
+          "http://localhost:4202/#login",
+          "http://localhost:4288/#login"
         ]
       }
     }
@@ -26,6 +22,11 @@
     "template_path": "templates",
     "static_path": "static",
     "debug": false
-  }
+  },
+
+  "client_id": "abc",
+  "client_secret": "xyz",
+  "introspection_url": "http://localhost:8088/introspect"
+
 }
 

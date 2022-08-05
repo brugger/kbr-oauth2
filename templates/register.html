@@ -8,11 +8,11 @@
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <div id="g_id_onload"
-     data-client_id="1025960079531-q0s946ncoaefnp90eqip7r4c4ato5lkj.apps.googleusercontent.com"
-     data-callback="onSignIn">
+        data-client_id="1025960079531-q0s946ncoaefnp90eqip7r4c4ato5lkj.apps.googleusercontent.com"
+        data-callback="onSignIn">
 </div>
-
-<script src="https://accounts.google.com/gsi/client" onload="console.log('TODO: add onload function')">
+    
+<script src="https://accounts.google.com/gsi/client" >
 </script>
 
 
@@ -27,10 +27,10 @@
         <li class="nav-item active">
             <a class="nav-link" href="/register">Register user <span class="sr-only">(current)</span></a>
           </li>
-        <li class="nav-item active">
+          <li class="nav-item active">
             <a class="nav-link" href="/reset">Reset password <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item active">
+          <li class="nav-item active">
           <a class="nav-link" href="/tos">Terms of Service <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
@@ -47,16 +47,25 @@
 
             <div class="card" style="width: 450px">
                 <article class="card-body">
-                    <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+                    <h4 class="card-title text-center mb-4 mt-1">Register user</h4>
                     <hr>
-                    <p class="text-danger text-center">{failed_message}</p>
+                    <p class="text-danger text-center">{{failed_message}}</p>
+
                     <form  action="">
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                                 </div>
-                                <input name="email" class="form-control" placeholder="Email" type="text">
+                                <input name="username" class="form-control" placeholder="username" type="text" value={{username}}>
+                            </div> <!-- input-group.// -->
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                                </div>
+                                <input name="email" class="form-control" placeholder="Email" type="text"  value={{email}}>
                             </div> <!-- input-group.// -->
                         </div> <!-- form-group// -->
                         <div class="form-group">
@@ -68,26 +77,20 @@
                             </div> <!-- input-group.// -->
                         </div> <!-- form-group// -->
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+                            <button type="submit" class="btn btn-primary btn-block"> Register  </button>
                         </div> <!-- form-group// -->
-                        <input  hidden name="client_id" value="{client_id}">
-                        <input  hidden name="redirect_uri" value="{redirect_uri}">
-                        <input  hidden name="scope" value="{scope}">
-                        <input  hidden name="response_type" value="token">
                     </form>
-                    <div class="form-group">
-                        <button class="btn btn-secondary btn-block" onclick="location.href='/reset'">Reset password</button>
-                    </div> <!-- form-group// -->
                     <div class="text-center">
                       <div class="g_id_signin" data-type="standard"></div><br>
                     </div>  
                     <script>
-                      function onSignIn(response) {{
+                      function onSignIn(response) {
                             console.log(response);
-                             redirect_url="/authorize?third_party=google&client_id={client_id}&redirect_uri={redirect_uri_encoded}&response_type=token&scope={scope}&response="+response.credential;
+                             redirect_url="/register?third_party=google&response="+response.credential;
                              window.location.replace(redirect_url);
-                            }}
+                            }
                     </script>
+
                 </article>
             </div> <!-- card.// -->
 
