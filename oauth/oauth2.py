@@ -424,8 +424,8 @@ def init( auth_database:str, clients:list ) -> list:
         url(r'/privacy/?$', PrivacyHandler),
         url(r'/tos/?$', TosHandler),
         url(r'/register/?$', RegisterHandler),
-        url(r'/idp-user/(\w+)/?$',    IdpUserDetailHandler),
-        url(r'/idp-users/?$',         IdpUsersListHandler),    
+        url(r'/api/idp-user/(\w+)/?$',    IdpUserDetailHandler),
+        url(r'/api/idp-users/?$',         IdpUsersListHandler),    
 
 
     ]
