@@ -85,8 +85,12 @@
                     </div>  
                     <script>
                       function onSignIn(response) {
-                            console.log(response);
-                             redirect_url="/register?third_party=google&response="+response.credential;
+
+                            {% if redirect_uri != '' %}
+                              redirect_url="/register?third_party=google&response_type=token&client_id={{client_id}}&redirect_uri={{redirect_uri}}&response="+response.credential
+                            {% else %}
+                              redirect_url="/register?third_party=google&response="+response.credential;
+                            {% end %}
                              window.location.replace(redirect_url);
                             }
                     </script>

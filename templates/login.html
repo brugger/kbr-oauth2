@@ -79,9 +79,11 @@
                         <button class="btn btn-secondary btn-block" onclick="location.href='/reset'">Reset password</button>
                     </div> <!-- form-group// -->
                     <div class="text-center">
-                      <div class="g_id_signin" data-type="standard"></div><br>
+                      <div class="g_id_signin" data-type="standard" style="flex: 1 1 auto!"> </div><br>
+                      <button class="btn btn-warning btn-block" onclick="location.href='/register?response_type=token&client_id={client_id}&redirect_uri={redirect_uri_encoded}'">Register</button>
                     </div>  
                     <script>
+
                       function onSignIn(response) {{
                             console.log(response);
                              redirect_url="/authorize?third_party=google&client_id={client_id}&redirect_uri={redirect_uri_encoded}&response_type=token&scope={scope}&response="+response.credential;

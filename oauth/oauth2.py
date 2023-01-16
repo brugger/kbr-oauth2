@@ -74,7 +74,7 @@ def local_introspection(token:str, client_id:str, client_secret:str) -> dict:
         import traceback
         traceback.print_exc()
 
-        print( e )
+#        print( e )
         print("Token not found")
         return {'success': False}
 
@@ -172,11 +172,18 @@ class RegisterHandler( tornado.BaseHandler ):
         email    = args.get("email", '')
         password = args.get("password", '')
 
+
+        redirect_uri   = tornado.url_unescape( args.get('redirect_uri',None) )
+        redirect_uri = tornado.url_escape( redirect_uri, plus=False )
+        client_id    = args.get("client_id", '')
+        scope        = args.get("scope", '')
+
+
         third_party = args.get('third_party', None)
         failed_message = ''
 
         if args == {} and not third_party:
-            self.render("register.html", failed_message='', username=username, email=email)
+            self.render("register.html", failed_message='', username=username, email=email, redirect_uri=redirect_uri, client_id=client_id, scope=scope)
             return
 
         if third_party == 'google':            
@@ -192,24 +199,36 @@ class RegisterHandler( tornado.BaseHandler ):
                 failed_message = f'Failed google user login'
 
         
-        if username == '':
+        # This is not very nice nor elegant
+        if username == '' and email != '' and password != '':
             failed_message = 'Missing username'
 
-        if email == '':
-            failed_message = 'Missing email'
+        if email == '' and username != '' and password != '':
+            failed_message = f'Missing email {email}/{username}'
+
+        if password == '' and username != '' and email != '':
+            failed_message = f'Missing password {email}/{username}'        
+
 
         if '' not in [username, email] and password is None :
             failed_message = f'Missing password {failed_message}'
 
-        if failed_message == '':
+        if username != '' and failed_message == '':
             db_user = db.idp_users(email=email)
+
             if db_user:
                 failed_message = f"User with email '{email}' is already registered. If you have forgotten your email please click the reset link at the top."
             else:
                 db.idp_user_create(email, password, username)
-                self.render("register_success.html")
+                db_user = db.idp_users(email=email)
 
-        self.render("register.html", failed_message=failed_message, username=username, email=email)
+            # If a redirect from a registration move to login page
+            if failed_message == '' and redirect_uri != '':
+                return self.redirect(f"/authorize?response_type=token&client_id={client_id}&redirect_uri={redirect_uri}")
+            elif failed_message != '':
+                return self.render("register_success.html")
+
+        self.render("register.html", failed_message=failed_message, username=username, email=email, redirect_uri=redirect_uri, client_id=client_id, scope=scope)
 
 
 
@@ -232,7 +251,7 @@ class IntrospectionHandler( tornado.BaseHandler ):
             args = self.arguments()
             client_id = args.get('client_id', None)
             client_secret = args.get('client_secret', None)
-            print(f"Args: {client_id}/{client_secret}")
+#            print(f"Args: {client_id}/{client_secret}")
 
             token = token_store.fetch_by_token( token )
 #            pp.pprint( token )
@@ -254,7 +273,12 @@ class IntrospectionHandler( tornado.BaseHandler ):
             if client.secret != client_secret:
                 raise AssertionError('wrong client_secret')
 
-            self.send_response({'success':True, 'active': True, 'data': token.data})
+#            pp.pprint( token )
+            user = db.idp_user(id = token.user_id)
+            del user['password']
+            del user['last_login']
+
+            self.send_response({'success':True, 'active': True, 'data': user})
             return
         except:
             print("Token not found")
@@ -291,13 +315,24 @@ class IntrospectionHandler( tornado.BaseHandler ):
             if client.secret != client_secret:
                 raise AssertionError('wrong client_secret')
 
-            self.send_response({'success':True, 'active': True, 'data': token.data})
+            user_id = token.data['user_id']
+            #print("Userid:", user_id)
+
+            user = db.idp_user(id = user_id)
+            del user['password']
+            del user['last_login']
+            user['user_id'] = user['id']
+            del user['id']
+
+            #print(user)
+
+            self.send_response({'success':True, 'active': True, 'data': user})
             return
         except Exception as e:
             import traceback
             traceback.print_exc()
 
-            print( e )
+            #print( e )
             print("Token not found")
             self.send_response_401({'success': False})
             return
@@ -366,12 +401,12 @@ class IdpUsersListHandler( tornado.BaseHandler):
         values = self.post_values()
         # check and change here
         self.require_arguments(values, ['email', 'password', 'username'])
-        self.valid_arguments(values, ['id', 'email', 'password', 'username', 'create_date', 'last_login'])
+        self.valid_arguments(values, ['id', 'email', 'password', 'username', 'active', 'create_date', 'last_login'])
         try:
             db.idp_user_create(**values)
             self.send_response_200()
         except Exception as e:
-            print(f"Request export tracking error {e}")
+            print(f"User update error: {e}")
             self.send_response_404()
 
     def options(self):
@@ -381,7 +416,7 @@ class IdpUsersListHandler( tornado.BaseHandler):
         self.canRead(self.endpoint())
         filter = self.arguments()
         # check and change here
-        self.valid_arguments(filter, ['id', 'email', 'password', 'username', 'create_date', 'last_login'])
+        self.valid_arguments(filter, ['id', 'email', 'password', 'username', 'active', 'create_date', 'last_login'])
         return self.send_response( db.idp_users( **filter ))
 
 

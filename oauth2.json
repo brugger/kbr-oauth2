@@ -10,7 +10,8 @@
           "http://localhost:4200/#login",
           "http://localhost:4201/#login",
           "http://localhost:4202/#login",
-          "http://localhost:4288/#login"
+          "http://localhost:4288/#login",
+          "http://localhost:4290/#login"
         ]
       }
     }
