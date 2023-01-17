@@ -90,7 +90,13 @@ class ImplicitSiteAdapter(ImplicitGrantSiteAdapter):
         client_id      = tornado.url_unescape( request.get_param('client_id') )
         redirect_uri   = tornado.url_unescape( request.get_param('redirect_uri') )
         scope          = tornado.url_unescape( request.get_param('scope', default=None) )
+
         failed_message = environ.get('failed_message','')
+
+        if request.get_param('registered', default=False):
+            failed_message = 'User registered, please login with the same credentials'
+
+
         redirect_uri_encoded = tornado.url_escape( request.get_param('redirect_uri', default=None), plus=False )
         # Readin template file and replace values with the values extracted above.
         # ! Should throw an error of something is missing
@@ -226,7 +232,7 @@ class RegisterHandler( tornado.BaseHandler ):
 
             # If a redirect from a registration move to login page
             if redirect_uri != '':
-                return self.redirect(f"/authorize?response_type=token&client_id={client_id}&redirect_uri={redirect_uri}")
+                return self.redirect(f"/authorize?response_type=token&client_id={client_id}&registered=true&redirect_uri={redirect_uri}")
             elif failed_message != '':
                 return self.render("register_success.html")
 
