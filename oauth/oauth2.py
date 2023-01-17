@@ -222,8 +222,10 @@ class RegisterHandler( tornado.BaseHandler ):
                 db.idp_user_create(email, password, username)
                 db_user = db.idp_users(email=email)
 
+#            print("RU", redirect_uri, "FM:", failed_message)
+
             # If a redirect from a registration move to login page
-            if failed_message == '' and redirect_uri != '':
+            if redirect_uri != '':
                 return self.redirect(f"/authorize?response_type=token&client_id={client_id}&redirect_uri={redirect_uri}")
             elif failed_message != '':
                 return self.render("register_success.html")
