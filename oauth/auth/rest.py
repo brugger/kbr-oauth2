@@ -26,7 +26,7 @@ client_secret = None
 def introspection(token:str) -> dict:
 
 #    print( f"TOKEN:: '{token}'" )
-    url = f"{introspection_url}/{token}/"
+#    url = f"{introspection_url}/{token}/"
 #    print(url)
     return oauth2.local_introspection(token, client_id, client_secret)
 
@@ -484,20 +484,20 @@ def init(db_uri:str, intro_url:str=None, clnt_id:str=None, clnt_secret:str=None)
     client_secret = clnt_secret
 
     urls = [
-            (r'/admin/user-profile/(\w+)/?$',  UserProfileDetailHandler),
-            (r'/admin/user-profiles/?$',       UserProfilesListHandler),    
-            (r'/admin/user-role/(\w+)/?$',     UserRoleDetailHandler),
-            (r'/admin/user-roles/(\w+)/?$',     UserRolesListHandler),
-            (r'/admin/user-roles/?$',          UserRolesListHandler),    
-            (r'/admin/role/(\w+)/?$',         RoleDetailHandler),
-            (r'/admin/roles/?$',              RolesListHandler),    
-            (r'/admin/acl/(\w+)/?$',          AclDetailHandler),
-            (r'/admin/acls/?$',               AclsListHandler),    
-            (r'/admin/acl-role/(\w+)/?$',      AclRoleDetailHandler),
-            (r'/admin/acl-roles/(\w+)/?$',     AclRolesListHandler),
-            (r'/admin/acl-roles/?$',           AclRolesListHandler),
+            (r'/api/admin/user-profile/(\w+)/?$',  UserProfileDetailHandler),
+            (r'/api/admin/user-profiles/?$',       UserProfilesListHandler),    
+            (r'/api/admin/user-role/(\w+)/?$',     UserRoleDetailHandler),
+            (r'/api/admin/user-roles/(\w+)/?$',     UserRolesListHandler),
+            (r'/api/admin/user-roles/?$',          UserRolesListHandler),    
+            (r'/api/admin/role/(\w+)/?$',         RoleDetailHandler),
+            (r'/api/admin/roles/?$',              RolesListHandler),    
+            (r'/api/admin/acl/(\w+)/?$',          AclDetailHandler),
+            (r'/api/admin/acls/?$',               AclsListHandler),    
+            (r'/api/admin/acl-role/(\w+)/?$',      AclRoleDetailHandler),
+            (r'/api/admin/acl-roles/(\w+)/?$',     AclRolesListHandler),
+            (r'/api/admin/acl-roles/?$',           AclRolesListHandler),
 
-            (r'/me/?$', UserHandler),
+            (r'/api/me/?$', UserHandler),
 
             ]
 
